@@ -90,7 +90,8 @@ async function toPhoto(blob) {
     const canvas2dContext = createCanvasTag()
         .getContext('2d');
 
-    const webSocket = new WebSocket('ws://demos.kaazing.com/echo');
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const webSocket = new WebSocket(`${wsProtocol}://demos.kaazing.com/echo`);
     webSocket.binaryType = 'blob';
     webSocket.onopen = async () => {
         console.log(`Web socked opened`);
