@@ -1,5 +1,6 @@
 import 'image-capture'
 
+import './createImageBitmap';
 import * as serviceWorker from './serviceWorker';
 
 
@@ -15,22 +16,8 @@ async function getVideoDevice() {
     return videoDevice;
 }
 
-async function getVideoStream(videoDevice) {
-    const mediaStreamConstraints = {
-        video: {
-            deviceId: {
-                exact: videoDevice.deviceId
-            },
-            width: {
-                max: width,
-            },
-            height: {
-                max: height,
-            },
-            // frameRate: 15
-        }
-    };
-    const videoStream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
+async function getVideoStream() {
+    const videoStream = await navigator.mediaDevices.getUserMedia({video: true});
     console.log(`Video stream opened: ${videoStream.id}`);
     return videoStream;
 }
@@ -81,8 +68,7 @@ async function toPhoto(blob) {
 
 (async function demo() {
 
-    const videoDevice = await getVideoDevice();
-    const videoStream = await getVideoStream(videoDevice);
+    const videoStream = await getVideoStream();
 
     const imageCapture = getImageCapture(videoStream);
 
